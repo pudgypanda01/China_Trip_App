@@ -6,7 +6,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Sichuan Trip">
-<meta name="theme-color" content="#1a1a2e">
+<meta name="theme-color" content="#0a0a0a">
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icons/icon-192.png">
 <title>Sichuan 2026</title>
@@ -14,22 +14,22 @@
   *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 
   :root {
-    --bg-primary: #0f0f1a;
-    --bg-secondary: #1a1a2e;
-    --bg-card: #222240;
-    --bg-card-hover: #2a2a50;
-    --gold: #d4a853;
-    --gold-light: #e8c97a;
-    --gold-dim: #a8863f;
-    --text-primary: #f0ece2;
-    --text-secondary: #b8b5ad;
-    --text-muted: #7a7872;
-    --accent: #c9463d;
-    --accent-soft: rgba(201,70,61,0.15);
-    --border: rgba(212,168,83,0.12);
-    --shadow: 0 4px 24px rgba(0,0,0,0.4);
-    --shadow-lg: 0 8px 40px rgba(0,0,0,0.5);
-    --radius: 16px;
+    --bg-primary: #0a0a0a;
+    --bg-secondary: #141414;
+    --bg-card: #1a1a1a;
+    --bg-card-hover: #222222;
+    --gold: #b8a99a;
+    --gold-light: #cec2b5;
+    --gold-dim: #998b7c;
+    --text-primary: #f2efe9;
+    --text-secondary: #a09a93;
+    --text-muted: #5e5955;
+    --accent: #b8a99a;
+    --accent-soft: rgba(184,169,154,0.1);
+    --border: rgba(255,255,255,0.06);
+    --shadow: 0 4px 24px rgba(0,0,0,0.5);
+    --shadow-lg: 0 8px 40px rgba(0,0,0,0.6);
+    --radius: 14px;
     --radius-sm: 10px;
     --safe-top: env(safe-area-inset-top, 0px);
     --safe-bottom: env(safe-area-inset-bottom, 0px);
@@ -57,7 +57,7 @@
     position: fixed;
     top: 0; left: 0; right: 0;
     height: 40vh;
-    background: radial-gradient(ellipse at 50% 0%, rgba(212,168,83,0.08) 0%, transparent 70%);
+    background: radial-gradient(ellipse at 50% 0%, rgba(255,255,255,0.02) 0%, transparent 70%);
     pointer-events: none;
     z-index: 0;
   }
@@ -68,9 +68,9 @@
     top: 0;
     z-index: 100;
     padding-top: var(--safe-top);
-    background: rgba(15,15,26,0.85);
-    -webkit-backdrop-filter: blur(20px) saturate(180%);
-    backdrop-filter: blur(20px) saturate(180%);
+    background: rgba(10,10,10,0.88);
+    -webkit-backdrop-filter: blur(24px) saturate(150%);
+    backdrop-filter: blur(24px) saturate(150%);
     border-bottom: 1px solid var(--border);
   }
 
@@ -79,19 +79,20 @@
   }
 
   .trip-title {
-    font-size: 13px;
-    font-weight: 600;
-    letter-spacing: 2.5px;
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: 4px;
     text-transform: uppercase;
-    color: var(--gold);
+    color: var(--text-primary);
     margin-bottom: 4px;
   }
 
   .trip-subtitle {
-    font-size: 11px;
+    font-size: 10px;
     color: var(--text-muted);
-    letter-spacing: 1px;
+    letter-spacing: 1.5px;
     text-transform: uppercase;
+    font-weight: 300;
     margin-bottom: 14px;
   }
 
@@ -142,9 +143,9 @@
   }
 
   .day-tab.active {
-    background: linear-gradient(135deg, rgba(212,168,83,0.2), rgba(212,168,83,0.08));
-    border-color: var(--gold-dim);
-    color: var(--gold-light);
+    background: rgba(255,255,255,0.06);
+    border-color: rgba(255,255,255,0.12);
+    color: var(--text-primary);
   }
 
   .day-tab:not(.active):active {
@@ -160,9 +161,9 @@
     right: 0;
     z-index: 100;
     padding-bottom: var(--safe-bottom);
-    background: rgba(15,15,26,0.9);
-    -webkit-backdrop-filter: blur(20px) saturate(180%);
-    backdrop-filter: blur(20px) saturate(180%);
+    background: rgba(10,10,10,0.92);
+    -webkit-backdrop-filter: blur(24px) saturate(150%);
+    backdrop-filter: blur(24px) saturate(150%);
     border-top: 1px solid var(--border);
     display: flex;
   }
@@ -193,7 +194,17 @@
   }
 
   .nav-btn.active {
-    color: var(--gold);
+    color: var(--text-primary);
+  }
+
+  /* Monotone emoji treatment */
+  .card-emoji,
+  .nav-icon,
+  .hero-emoji,
+  .stat-emoji,
+  .loading-logo {
+    filter: grayscale(1) brightness(0.85) contrast(1.1);
+    opacity: 0.7;
   }
 
   /* Main content */
@@ -224,17 +235,18 @@
   }
 
   .day-header h1 {
-    font-size: 28px;
-    font-weight: 700;
-    letter-spacing: -0.5px;
+    font-size: 26px;
+    font-weight: 300;
+    letter-spacing: 0.5px;
     color: var(--text-primary);
     line-height: 1.15;
   }
 
   .day-header .day-date {
-    font-size: 14px;
-    color: var(--gold-dim);
-    font-weight: 500;
+    font-size: 13px;
+    color: var(--text-muted);
+    font-weight: 400;
+    letter-spacing: 0.5px;
     margin-top: 4px;
   }
 
@@ -273,7 +285,7 @@
     right: 0;
     width: 80px;
     height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(212,168,83,0.03));
+    background: none;
     pointer-events: none;
   }
 
@@ -284,7 +296,7 @@
   }
 
   .card-emoji {
-    font-size: 28px;
+    font-size: 24px;
     line-height: 1;
     flex-shrink: 0;
     width: 40px;
@@ -292,7 +304,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba(255,255,255,0.04);
+    background: rgba(255,255,255,0.03);
     border-radius: 10px;
   }
 
@@ -302,17 +314,17 @@
   }
 
   .card-time {
-    font-size: 11px;
-    font-weight: 600;
-    color: var(--gold);
-    letter-spacing: 0.5px;
+    font-size: 10px;
+    font-weight: 500;
+    color: var(--text-muted);
+    letter-spacing: 1px;
     text-transform: uppercase;
     margin-bottom: 3px;
   }
 
   .card-title {
-    font-size: 16px;
-    font-weight: 600;
+    font-size: 15px;
+    font-weight: 500;
     color: var(--text-primary);
     line-height: 1.3;
     margin-bottom: 4px;
@@ -370,15 +382,17 @@
   }
 
   .accommodations h1 {
-    font-size: 28px;
-    font-weight: 700;
-    letter-spacing: -0.5px;
+    font-size: 26px;
+    font-weight: 300;
+    letter-spacing: 0.5px;
     margin-bottom: 6px;
   }
 
   .accommodations .section-sub {
-    font-size: 14px;
+    font-size: 12px;
     color: var(--text-muted);
+    letter-spacing: 0.5px;
+    font-weight: 300;
     margin-bottom: 24px;
   }
 
@@ -408,23 +422,23 @@
     left: 0;
     top: 0;
     bottom: 0;
-    width: 3px;
-    background: var(--gold);
+    width: 2px;
+    background: rgba(255,255,255,0.15);
     border-radius: 0 2px 2px 0;
   }
 
   .hotel-dates {
-    font-size: 11px;
-    font-weight: 600;
-    color: var(--gold);
-    letter-spacing: 0.5px;
+    font-size: 10px;
+    font-weight: 500;
+    color: var(--text-muted);
+    letter-spacing: 1px;
     text-transform: uppercase;
     margin-bottom: 6px;
   }
 
   .hotel-name {
-    font-size: 18px;
-    font-weight: 700;
+    font-size: 17px;
+    font-weight: 500;
     color: var(--text-primary);
     margin-bottom: 4px;
     line-height: 1.3;
@@ -449,12 +463,13 @@
   }
 
   .perk-tag {
-    font-size: 11px;
+    font-size: 10px;
     padding: 4px 10px;
     border-radius: 20px;
-    background: rgba(212,168,83,0.1);
-    color: var(--gold-dim);
-    font-weight: 500;
+    background: rgba(255,255,255,0.04);
+    color: var(--text-secondary);
+    font-weight: 400;
+    letter-spacing: 0.3px;
   }
 
   /* Overview page */
@@ -469,20 +484,22 @@
   }
 
   .overview-page h1 {
-    font-size: 28px;
-    font-weight: 700;
-    letter-spacing: -0.5px;
+    font-size: 26px;
+    font-weight: 300;
+    letter-spacing: 0.5px;
     margin-bottom: 6px;
   }
 
   .overview-page .section-sub {
-    font-size: 14px;
+    font-size: 12px;
     color: var(--text-muted);
+    letter-spacing: 0.5px;
+    font-weight: 300;
     margin-bottom: 24px;
   }
 
   .overview-hero {
-    background: linear-gradient(135deg, var(--bg-card), rgba(212,168,83,0.08));
+    background: var(--bg-card);
     border: 1px solid var(--border);
     border-radius: var(--radius);
     padding: 24px 20px;
@@ -496,8 +513,9 @@
   }
 
   .overview-hero h2 {
-    font-size: 22px;
-    font-weight: 700;
+    font-size: 20px;
+    font-weight: 400;
+    letter-spacing: 0.5px;
     margin-bottom: 4px;
   }
 
@@ -529,7 +547,7 @@
   .stat-card .stat-value {
     font-size: 22px;
     font-weight: 700;
-    color: var(--gold-light);
+    color: var(--text-primary);
   }
 
   .stat-card .stat-label {
@@ -541,8 +559,8 @@
   }
 
   .countdown-banner {
-    background: linear-gradient(135deg, rgba(201,70,61,0.15), rgba(212,168,83,0.1));
-    border: 1px solid rgba(201,70,61,0.2);
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--border);
     border-radius: var(--radius-sm);
     padding: 16px 20px;
     text-align: center;
@@ -550,17 +568,18 @@
   }
 
   .countdown-banner .countdown-label {
-    font-size: 12px;
+    font-size: 10px;
     color: var(--text-muted);
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 2px;
+    font-weight: 400;
     margin-bottom: 4px;
   }
 
   .countdown-banner .countdown-value {
     font-size: 28px;
     font-weight: 700;
-    color: var(--accent);
+    color: var(--text-primary);
   }
 
   .countdown-banner .countdown-unit {
@@ -570,17 +589,17 @@
 
   /* During trip state */
   .countdown-banner.during {
-    background: linear-gradient(135deg, rgba(76,175,80,0.15), rgba(212,168,83,0.1));
-    border-color: rgba(76,175,80,0.2);
+    background: rgba(255,255,255,0.04);
+    border-color: rgba(255,255,255,0.08);
   }
 
   .countdown-banner.during .countdown-value {
-    color: #66bb6a;
+    color: var(--text-primary);
   }
 
   .countdown-banner.past {
-    background: linear-gradient(135deg, rgba(120,120,120,0.15), rgba(212,168,83,0.05));
-    border-color: rgba(120,120,120,0.2);
+    background: rgba(255,255,255,0.02);
+    border-color: var(--border);
   }
 
   .countdown-banner.past .countdown-value {
@@ -612,10 +631,11 @@
   }
 
   .loading-text {
-    font-size: 13px;
-    letter-spacing: 3px;
+    font-size: 11px;
+    letter-spacing: 5px;
     text-transform: uppercase;
-    color: var(--gold);
+    color: var(--text-secondary);
+    font-weight: 300;
     margin-top: 16px;
   }
 
@@ -637,6 +657,179 @@
 
   /* Scroll to top */
   .main::-webkit-scrollbar { display: none; }
+
+  /* Detail view overlay */
+  .detail-view {
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    background: var(--bg-primary);
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    display: none;
+  }
+
+  .detail-view.active {
+    display: block;
+    animation: detailIn 0.3s ease;
+  }
+
+  @keyframes detailIn {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .detail-hero {
+    position: relative;
+    width: 100%;
+    height: 280px;
+    overflow: hidden;
+    background: var(--bg-card);
+  }
+
+  .detail-hero img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(0.6) saturate(0.8);
+  }
+
+  .detail-hero::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 120px;
+    background: linear-gradient(transparent, var(--bg-primary));
+    pointer-events: none;
+  }
+
+  .detail-back {
+    position: absolute;
+    top: calc(16px + var(--safe-top));
+    left: 16px;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    background: rgba(10,10,10,0.5);
+    -webkit-backdrop-filter: blur(16px);
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 20px;
+    color: var(--text-primary);
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 400;
+    letter-spacing: 0.3px;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    transition: background 0.2s;
+  }
+
+  .detail-back:active {
+    background: rgba(10,10,10,0.7);
+  }
+
+  .detail-back svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .detail-body {
+    position: relative;
+    padding: 0 20px 60px;
+    margin-top: -36px;
+  }
+
+  .detail-emoji {
+    font-size: 32px;
+    margin-bottom: 12px;
+    filter: grayscale(1) brightness(0.85) contrast(1.1);
+    opacity: 0.7;
+  }
+
+  .detail-time {
+    font-size: 10px;
+    font-weight: 500;
+    color: var(--text-muted);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  .detail-title {
+    font-size: 22px;
+    font-weight: 300;
+    letter-spacing: 0.3px;
+    color: var(--text-primary);
+    line-height: 1.25;
+    margin-bottom: 10px;
+  }
+
+  .detail-location {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-bottom: 20px;
+  }
+
+  .detail-location svg {
+    width: 14px;
+    height: 14px;
+    opacity: 0.6;
+    flex-shrink: 0;
+  }
+
+  .detail-location:empty {
+    display: none;
+  }
+
+  .detail-divider {
+    width: 40px;
+    height: 1px;
+    background: rgba(255,255,255,0.08);
+    margin-bottom: 20px;
+  }
+
+  .detail-summary {
+    font-size: 15px;
+    color: var(--text-secondary);
+    line-height: 1.75;
+    font-weight: 300;
+  }
+
+  .detail-summary p {
+    margin-bottom: 12px;
+  }
+
+  .detail-summary p:last-child {
+    margin-bottom: 0;
+  }
+
+  /* Chevron hint on cards */
+  .card-chevron {
+    position: absolute;
+    top: 50%;
+    right: 16px;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.2;
+  }
+
+  .card-chevron svg {
+    width: 16px;
+    height: 16px;
+    color: var(--text-muted);
+  }
 </style>
 </head>
 <body>
@@ -661,6 +854,24 @@
   <div class="page-view accommodations" id="accommodationsView"></div>
   <div class="page-view overview-page" id="overviewView"></div>
 </main>
+
+<div class="detail-view" id="detailView">
+  <div class="detail-hero" id="detailHero">
+    <button class="detail-back" id="detailBack">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5"/></svg>
+      Back
+    </button>
+    <img id="detailImg" src="" alt="">
+  </div>
+  <div class="detail-body">
+    <div class="detail-emoji" id="detailEmoji"></div>
+    <div class="detail-time" id="detailTime"></div>
+    <h1 class="detail-title" id="detailTitle"></h1>
+    <div class="detail-location" id="detailLocation"></div>
+    <div class="detail-divider"></div>
+    <div class="detail-summary" id="detailSummary"></div>
+  </div>
+</div>
 
 <nav class="bottom-nav">
   <button class="nav-btn active" data-view="itinerary" id="navItinerary">
@@ -832,7 +1043,183 @@ const HOTELS = [
   }
 ];
 
+// ─── IMAGE HELPER ────────────────────────────────────────────────────────────
+
+function pxImg(id) {
+  return `https://images.pexels.com/photos/${id}/pexels-photo-${id}.jpeg?auto=compress&cs=tinysrgb&w=800`;
+}
+
+// ─── DETAIL DATA (summaries + images) ───────────────────────────────────────
+
+const DETAIL_DATA = {
+  'Flight CX 986 — Hong Kong to Chengdu': {
+    image: pxImg(13720975),
+    summary: `<p>Cathay Pacific flight CX 986 departs Hong Kong International Airport at 10:00 AM, arriving at Chengdu Tianfu International Airport at 12:40 PM local time. The 2 hour 40 minute flight carries you from the South China coast deep into the Sichuan Basin.</p><p>Chengdu Tianfu, which opened in 2021, is one of China's newest and most impressive airports — a gleaming gateway to western China. From here, your Sichuan adventure begins.</p>`
+  },
+  'Flight CX 987 — Chengdu to Hong Kong': {
+    image: pxImg(13720975),
+    summary: `<p>The return journey home aboard Cathay Pacific flight CX 987, departing Chengdu Tianfu at 1:55 PM and arriving in Hong Kong at 4:50 PM. A final chance to reflect on eight extraordinary days across Sichuan — from giant pandas and sacred mountains to turquoise lakes and ancient civilizations.</p>`
+  },
+  'Private Transfer to Six Senses': {
+    image: pxImg(17354174),
+    summary: `<p>A scenic private drive from Chengdu Tianfu International Airport to the foothills of the Qingcheng Mountains. The journey takes approximately 90 minutes, transitioning from the modern city through lush Sichuan countryside to the tranquil mountain setting of the Six Senses resort.</p>`
+  },
+  'Check in — Six Senses Qingcheng Mountain': {
+    image: pxImg(5563469),
+    summary: `<p>Six Senses Qingcheng Mountain is a world-class wellness retreat nestled among bamboo forests at the base of sacred Qingcheng Mountain. The resort blends traditional Sichuan architecture with contemporary luxury across 113 suites and villas.</p><p>Expect serene mountain views, an acclaimed spa drawing on local Taoist wellness traditions, and cuisine featuring ingredients from the resort's own organic farm. One night stay.</p>`
+  },
+  'Check out Six Senses Qingcheng Mountain': {
+    image: pxImg(5563469),
+    summary: `<p>Departing the serene mountain setting of Six Senses Qingcheng Mountain after one rejuvenating night. The resort's blend of Sichuan heritage and contemporary wellness sets the tone for the journey ahead.</p>`
+  },
+  'Dujiangyan Dam': {
+    image: pxImg(10888545),
+    summary: `<p>Built in 256 BC by governor Li Bing and his son, the Dujiangyan Irrigation System is one of humanity's greatest engineering achievements — and remarkably, it still functions today, irrigating over 5,300 square kilometers of farmland.</p><p>Unlike modern dams, this ancient system works entirely without a dam wall, instead using a brilliant fish-mouth levee to split the Min River into an inner canal for irrigation and an outer channel for flood control. UNESCO inscribed it as a World Heritage Site in 2000.</p>`
+  },
+  'Nanqiao Bridge "Blue Tears" Light Show': {
+    image: pxImg(16020168),
+    summary: `<p>Each evening, the historic Nanqiao Bridge in Dujiangyan transforms into a breathtaking spectacle of light and color. Thousands of LED lights cascade across the bridge's traditional covered structure, their reflections dancing across the waters of the Min River below.</p><p>The "Blue Tears" show is named for the ethereal blue and white light patterns that evoke falling tears of light — a stunning contrast against the darkened mountain backdrop.</p>`
+  },
+  'Panda Volunteer Programme': {
+    image: pxImg(7571166),
+    summary: `<p>The Dujiangyan Panda Base offers one of the most intimate giant panda experiences in the world. During this 2-3 hour guided programme, you'll don a keeper's uniform and help prepare bamboo, clean enclosures, and observe these gentle giants up close.</p><p>Giant pandas are one of the world's most endangered species, with fewer than 2,000 remaining in the wild — the vast majority here in Sichuan. The base plays a vital role in conservation, breeding, and rewilding efforts.</p>`
+  },
+  'Qingcheng Mountain (青城山)': {
+    image: pxImg(29582943),
+    summary: `<p>Qingcheng Mountain is revered as the birthplace of Taoism, where the sage Zhang Daoling founded the religion in 142 AD. Its misty, bamboo-forested slopes are dotted with ancient temples, pavilions, and meditation caves spanning nearly two millennia.</p><p>A cable car whisks you above the emerald canopy to the upper mountain, where scenic hiking trails wind through centuries-old gates and past hidden shrines. The mountain's name — "Green City" — comes from its lush, year-round forest canopy. UNESCO World Heritage Site since 2000.</p>`
+  },
+  'Transfer to Chengdu': {
+    image: pxImg(17354174),
+    summary: `<p>A comfortable 1.5-hour private transfer from the Qingcheng Mountain area into central Chengdu. The drive takes you through the fertile Chengdu Plain — one of China's most productive agricultural regions, earning Sichuan its ancient reputation as the "Land of Abundance."</p>`
+  },
+  'Check in — The Temple House': {
+    image: pxImg(3534750),
+    summary: `<p>The Temple House is part of The House Collective by Swire Hotels — a collection of individually designed residences in Asia's most compelling cities. This boutique hotel occupies a sensitively restored Qing Dynasty heritage courtyard in the heart of Chengdu's Taikoo Li district.</p><p>Studio 60 rooms feature generous living spaces with floor-to-ceiling windows, rainfall showers, and curated local art. Daily breakfast and RMB 700 hotel credit are included in your stay.</p>`
+  },
+  'Check out The Temple House': {
+    image: pxImg(3534750),
+    summary: `<p>Departing The Temple House — Swire Hotels' elegant Chengdu residence, set within a beautifully restored Qing Dynasty heritage courtyard. The hotel's seamless blend of historical architecture and contemporary design makes it one of Chengdu's most distinctive addresses.</p>`
+  },
+  'Sichuan "Face Changing" Opera': {
+    image: pxImg(6038297),
+    summary: `<p>Bian Lian — literally "face changing" — is a 300-year-old Sichuan opera art form where performers change brightly painted silk masks in the blink of an eye, sometimes switching through 10 different faces in 20 seconds.</p><p>The technique was once classified as a national secret, with masters passing the art only to chosen male apprentices. Today it remains one of China's most spectacular performance traditions, combining acrobatics, magic, and Sichuan opera singing. An optional evening activity — can also be done on Day 3.</p>`
+  },
+  'Sichuan Spice Market & Cooking Class': {
+    image: pxImg(20994429),
+    summary: `<p>Begin at a bustling local spice market, navigating mountains of fiery red Sichuan chilis, fragrant star anise, and the famous Sichuan peppercorn — the tiny kernel responsible for the cuisine's signature mouth-numbing "ma la" sensation.</p><p>Then step into a professional kitchen to learn the techniques behind Sichuan's most celebrated dishes: Mapo Tofu, Kung Pao Chicken, and Dan Dan noodles. You'll master the art of "wok hei" — the breath of the wok — and take home recipes to recreate these flavors.</p>`
+  },
+  'Kung Fu Tea Performance': {
+    image: pxImg(6545346),
+    summary: `<p>At the historic Wangjianglou Park along the Jin River, witness the ancient art of Kung Fu tea pouring — known as "long-spout tea." Performers wield ornate copper kettles with spouts up to a meter long, executing gravity-defying pours with acrobatic precision.</p><p>Sichuan has been a center of tea culture for over 2,000 years. The province's covered teahouses remain the social heart of daily life, where locals gather to sip jasmine tea, play mahjong, and while away the afternoon.</p>`
+  },
+  'Leisure Time in Chengdu': {
+    image: pxImg(6038297),
+    summary: `<p>Taikoo Li is Chengdu's premier open-air lifestyle destination, designed as a modern reinterpretation of traditional Sichuan lane culture. Low-rise buildings with courtyard layouts house international luxury brands alongside independent galleries, concept stores, and some of the city's finest restaurants.</p><p>The district surrounds the ancient Daci Temple, creating a striking juxtaposition of contemporary design and 1,600 years of Buddhist heritage.</p>`
+  },
+  'Chengdu Foodie Tour (4 hours)': {
+    image: pxImg(20994429),
+    summary: `<p>A four-hour deep dive into Chengdu's legendary food scene — a city recognized by UNESCO as a "City of Gastronomy." Begin at a traditional wet market, where vendors sell everything from live fish to hand-pressed tofu.</p><p>Then navigate the city's labyrinthine street food alleys, sampling charcoal-grilled skewers, spicy rabbit heads, sweet water noodles, and crispy Jianbing crepes. The evening culminates in an authentic Sichuan hotpot — a bubbling cauldron of chili-laced broth into which you dip fresh meats, vegetables, and tofu.</p>`
+  },
+  'High-Speed Train — Chengdu East to Songpan': {
+    image: pxImg(7209369),
+    summary: `<p>A scenic first-class journey aboard China's remarkable high-speed rail network. Departing Chengdu East at 9:39 AM and arriving Songpan at 11:12 AM, the train climbs from the Sichuan Basin into dramatic mountain terrain.</p><p>China's high-speed rail network is the world's largest, spanning over 42,000 kilometers. First-class seating offers spacious reclinable seats, panoramic windows, and complimentary refreshments as the landscape transforms from plains to peaks.</p>`
+  },
+  'Songpan Old Town (松潘古城)': {
+    image: pxImg(28898834),
+    summary: `<p>Songpan is a beautifully preserved Ming Dynasty walled town that served for centuries as a vital trading post on the ancient Tea Horse Road — the network of caravan paths linking Sichuan's tea-producing lowlands with the Tibetan Plateau.</p><p>The town's massive stone gates and watchtowers date back over 600 years. Walking its flagstone streets, you'll find a living crossroads of Han, Tibetan, Qiang, and Hui Muslim cultures — reflected in the architecture, cuisine, and faces of its residents.</p>`
+  },
+  'Fairy Pool / Shenxianchi Park (神仙池)': {
+    image: pxImg(8370819),
+    summary: `<p>Often called "Jiuzhaigou without the crowds," Shenxianchi — the Fairy Pool — is a pristine natural park featuring ethereal turquoise terraced pools, ancient travertine formations, and cascading waterfalls hidden deep in virgin forest.</p><p>The calcium-rich waters create stunning natural terraces of impossibly blue pools, connected by gentle cascades and surrounded by old-growth forest. Far less visited than its famous neighbor, Shenxianchi offers an intimate, almost mystical experience of Sichuan's natural beauty.</p>`
+  },
+  'Private Transfer to Rissai Valley': {
+    image: pxImg(17354174),
+    summary: `<p>A scenic two-hour private drive deeper into the mountains, climbing through dramatic landscapes of forested valleys and Tibetan villages toward the Rissai Valley. The route follows ancient trading paths that once connected lowland China with the Tibetan Plateau.</p>`
+  },
+  'Check in — Rissai Valley, Ritz-Carlton Reserve': {
+    image: pxImg(5563469),
+    summary: `<p>Rissai Valley is one of only a handful of Ritz-Carlton Reserve properties worldwide — the brand's most exclusive tier, reserved for extraordinary destinations. Set in a dramatic Tibetan-influenced valley near Jiuzhaigou, the resort offers private villas with dedicated butler service.</p><p>Your Reserve 1-Bedroom Villa features a private terrace with mountain views, a deep soaking tub, and a living room with fireplace. Daily cocktails and a fully stocked honour bar are included across your three-night stay.</p>`
+  },
+  'Welcome Dinner — Chef Table at Cai Lin Xuan': {
+    image: pxImg(3534750),
+    summary: `<p>The resort's signature dining experience at Cai Lin Xuan — meaning "Forest of Colors" — features refined Sichuan and Tibetan-inspired cuisine presented as a multi-course tasting menu. Locally sourced highland ingredients meet the precision of classical technique.</p><p>The restaurant overlooks a serene garden courtyard, and the included welcome dinner sets the tone for three nights of exceptional mountain hospitality.</p>`
+  },
+  'Leisure Day at Rissai Valley': {
+    image: pxImg(5563469),
+    summary: `<p>A day to decompress and absorb the extraordinary mountain setting. The Rissai Valley spa draws on local Tibetan and Qiang wellness traditions, offering treatments using highland botanicals, hot stone therapy, and traditional herbal soaks.</p><p>The resort's heated infinity pool gazes out at the surrounding peaks, while gentle walking trails wind through meadows and prayer-flag-lined paths. This is mountain luxury at its most serene.</p>`
+  },
+  'Private Meditation Class': {
+    image: pxImg(29582943),
+    summary: `<p>A guided meditation session in the serene mountain setting of Rissai Valley, drawing on both Buddhist and Taoist contemplative traditions native to this region of Sichuan. The session is led by a trained practitioner and suitable for all experience levels.</p><p>The Aba Tibetan and Qiang Autonomous Prefecture has been a center of spiritual practice for centuries, and the mountain air and silence provide a profound setting for mindfulness.</p>`
+  },
+  'Private Temple Visit': {
+    image: pxImg(19394046),
+    summary: `<p>An exclusive guided visit to a local Tibetan Buddhist temple, experiencing the living spiritual traditions of the Aba Tibetan and Qiang Autonomous Prefecture. Tibetan Buddhism has thrived in this region for over a thousand years.</p><p>Expect to see monks in maroon robes performing daily rituals, spinning prayer wheels, butter lamps flickering in darkened halls, and the hypnotic sound of chanted sutras echoing through incense-filled chambers.</p>`
+  },
+  'Tibetan Village Cultural Visit': {
+    image: pxImg(28898834),
+    summary: `<p>Step into authentic Tibetan daily life in a village near Jiuzhaigou. Traditional stone watchtower houses — some centuries old — line the narrow paths, with prayer flags fluttering from every rooftop and yak butter tea warming every hearth.</p><p>You'll experience Tibetan hospitality firsthand: tsampa (roasted barley flour), yak butter tea, and perhaps traditional song and dance. This is a community living at the crossroads of Han and Tibetan cultures, preserving traditions that stretch back generations.</p>`
+  },
+  'Afternoon Tea at Rissai Valley': {
+    image: pxImg(28645729),
+    summary: `<p>A complimentary daily afternoon tea service at the resort, featuring locally harvested mountain teas and handcrafted pastries by the resort's patisserie team. Served in the lounge with panoramic views of the surrounding peaks and valleys.</p><p>The teas include rare highland varietals grown in the mineral-rich soils of northern Sichuan — some of the same varieties that once traveled the ancient Tea Horse Road to Tibet.</p>`
+  },
+  'Jiuzhaigou National Park — Private VIP Visit': {
+    image: pxImg(8370819),
+    summary: `<p>One of China's most spectacular natural wonders and a UNESCO World Heritage Site since 1992. Jiuzhaigou — the "Valley of Nine Villages" — stretches across 720 square kilometers of towering peaks, ancient forests, and 108 crystalline lakes of impossibly vivid turquoise, emerald, and sapphire.</p><p>Your private VIP visit includes chartered transport with guaranteed entry, beating the crowds to iconic spots like Five Flower Lake, Pearl Shoal Waterfall, and Mirror Lake. The full-day experience (8:30 AM to 5:00 PM) allows unhurried exploration of all three valleys.</p>`
+  },
+  'Lunch in Jiuzhaigou Area': {
+    image: pxImg(20994429),
+    summary: `<p>A midday break for lunch in or around Jiuzhaigou National Park. The area around the park offers a mix of local Tibetan and Sichuan restaurants. Expect hearty highland fare — yak meat stews, hand-pulled noodles, and warming broths perfect for refueling between valley explorations.</p>`
+  },
+  'Hot Pot Dinner at Bo Ri Village': {
+    image: pxImg(20994429),
+    summary: `<p>An authentic local hot pot dinner in the traditional Tibetan village of Bo Ri, set in the shadow of the mountains near Jiuzhaigou. Hot pot — huoguo — is Sichuan's most iconic communal dining experience.</p><p>A bubbling cauldron of rich, chili-laced broth sits at the center of the table, into which diners dip fresh-sliced meats, mushrooms, leafy greens, and tofu. The highland setting and locally sourced ingredients make this a truly memorable meal. Included.</p>`
+  },
+  'Early Departure from Rissai Valley': {
+    image: pxImg(1266810),
+    summary: `<p>An early morning departure from Rissai Valley with packed breakfast provided for the journey ahead. The pre-dawn mountain air is crisp and clear — a final moment to absorb the extraordinary landscape before beginning the journey south.</p>`
+  },
+  'Transfer to Huanglong-Jiuzhai Station': {
+    image: pxImg(17354174),
+    summary: `<p>A two-hour private drive through the mountains to Huanglong-Jiuzhai railway station. The route winds through some of northern Sichuan's most dramatic scenery — deep gorges, alpine meadows, and Tibetan villages perched on mountainsides.</p>`
+  },
+  'Bullet Train C5784 to Sanxingdui': {
+    image: pxImg(7209369),
+    summary: `<p>First-class seats aboard bullet train C5784, a 1 hour 40 minute journey from the mountains back toward the Sichuan Basin. Watch the landscape transform from rugged highland terrain to the fertile plains that have sustained one of China's oldest continuous civilizations.</p>`
+  },
+  'Sanxingdui Museum (三星堆)': {
+    image: pxImg(10888545),
+    summary: `<p>One of the 20th century's greatest archaeological discoveries. In 1986, workers accidentally unearthed two massive sacrificial pits at Sanxingdui, revealing a mysterious Bronze Age civilization dating back over 3,000 years — one that appears in no historical record.</p><p>The museum houses over 13,000 artifacts including hauntingly beautiful bronze masks with protruding eyes, a nearly 4-meter-tall bronze tree of life, exquisite gold foil masks, and jade ceremonial objects. This unknown civilization challenges everything historians thought they knew about ancient China. Guided visit included.</p>`
+  },
+  'Private Transfer to Airport': {
+    image: pxImg(17354174),
+    summary: `<p>A 1.5-hour private transfer from central Chengdu to Chengdu Tianfu International Airport for the return flight to Hong Kong. The final drive through the Sichuan countryside — a quiet moment to reflect on an extraordinary week.</p>`
+  },
+  'Morning': {
+    image: pxImg(5563469),
+    summary: `<p>Check out and prepare for departure.</p>`
+  }
+};
+
+const HOTEL_DETAILS = {
+  'Six Senses Qingcheng Mountain': {
+    image: pxImg(5563469),
+    summary: `<p>Six Senses Qingcheng Mountain is a luxury wellness retreat set among bamboo forests and tea gardens at the base of sacred Qingcheng Mountain — the birthplace of Taoism. The resort features 113 suites and villas designed to harmonize traditional Sichuan architecture with contemporary comfort.</p><p>The acclaimed Six Senses Spa draws on local Taoist wellness traditions, offering treatments in pavilions surrounded by nature. An organic farm supplies the resort's restaurants, and activities range from tai chi at dawn to guided hikes through the surrounding UNESCO landscape.</p>`
+  },
+  'The Temple House, Chengdu': {
+    image: pxImg(3534750),
+    summary: `<p>The Temple House is the Chengdu address of Swire Hotels' acclaimed House Collective — a series of individually designed properties in Asia's most compelling cities. The hotel is built around a meticulously restored Qing Dynasty heritage courtyard, creating a rare dialogue between centuries-old timber architecture and sleek contemporary design.</p><p>Located in the heart of the Taikoo Li district, Studio 60 rooms offer generous living spaces, curated local art, and views over the ancient Daci Temple gardens. Daily breakfast and RMB 700 hotel credit are included.</p>`
+  },
+  'Rissai Valley, Ritz-Carlton Reserve': {
+    image: pxImg(5563469),
+    summary: `<p>Rissai Valley, a Ritz-Carlton Reserve, is among the most exclusive hotel experiences in the world. Only a handful of Ritz-Carlton Reserve properties exist globally, each in a destination of extraordinary natural and cultural significance.</p><p>Set in a dramatic valley near Jiuzhaigou, the resort draws on Tibetan architectural traditions — stone walls, heavy timber, and prayer-flag-lined courtyards. Your Reserve 1-Bedroom Villa includes dedicated butler service, a private terrace with mountain views, daily signature cocktails, and a fully stocked honour bar. Three nights of mountain luxury at its finest.</p>`
+  }
+};
+
 // ─── SVG ICONS ──────────────────────────────────────────────────────────────
+
+const CHEVRON_ICON = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"/></svg>`;
 
 const SEARCH_ICON = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"/></svg>`;
 
@@ -871,6 +1258,7 @@ function init() {
   setActiveDay(currentDay);
   setupSwipe();
   setupNavigation();
+  setupDetailView();
 
   // Hide loading screen
   setTimeout(() => {
@@ -913,10 +1301,13 @@ function renderAllDays() {
 }
 
 function renderActivityCard(activity) {
-  const searchUrl = `https://www.google.com/search?q=${encodeURIComponent(activity.search)}`;
+  const safeTitle = activity.title.replace(/'/g, "\\'").replace(/"/g, '&quot;');
+  const safeTime = (activity.time || '').replace(/'/g, "\\'");
+  const safeLoc = (activity.location || '').replace(/'/g, "\\'");
+  const safeEmoji = activity.emoji;
   return `
-    <a class="activity-card" href="${searchUrl}" target="_blank" rel="noopener noreferrer">
-      <div class="card-search-hint">${SEARCH_ICON}</div>
+    <div class="activity-card" onclick="showDetail('${safeTitle}', '${safeTime}', '${safeLoc}', '${safeEmoji}')">
+      <div class="card-chevron">${CHEVRON_ICON}</div>
       <div class="card-top">
         <div class="card-emoji">${activity.emoji}</div>
         <div class="card-body">
@@ -926,7 +1317,7 @@ function renderActivityCard(activity) {
           ${activity.location ? `<div class="card-location">${LOCATION_ICON} ${activity.location}</div>` : ''}
         </div>
       </div>
-    </a>
+    </div>
   `;
 }
 
@@ -935,8 +1326,10 @@ function renderAccommodations() {
   view.innerHTML = `
     <h1>Accommodations</h1>
     <div class="section-sub">4 hotels across 7 nights</div>
-    ${HOTELS.map(h => `
-      <a class="hotel-card" href="https://www.google.com/search?q=${encodeURIComponent(h.search)}" target="_blank" rel="noopener noreferrer">
+    ${HOTELS.map(h => {
+      const safeName = h.name.replace(/'/g, "\\'");
+      return `
+      <div class="hotel-card" onclick="showHotelDetail('${safeName}', '${h.dates}', '${h.nights}', '${h.room || ''}')">
         <div class="hotel-dates">${h.dates}</div>
         <div class="hotel-name">${h.name}</div>
         ${h.room ? `<div class="hotel-room">${h.room}</div>` : ''}
@@ -944,8 +1337,8 @@ function renderAccommodations() {
         <div class="hotel-perks">
           ${h.perks.map(p => `<span class="perk-tag">${p}</span>`).join('')}
         </div>
-      </a>
-    `).join('')}
+      </div>
+    `}).join('')}
   `;
 }
 
@@ -1121,6 +1514,67 @@ function switchView(view) {
 
   // Scroll to top
   window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ─── DETAIL VIEW ────────────────────────────────────────────────────────────
+
+function showDetail(title, time, location, emoji) {
+  const data = DETAIL_DATA[title];
+  const view = document.getElementById('detailView');
+  const fallbackImg = pxImg(29582943);
+  const fallbackSummary = '<p>Details for this activity will enhance your Sichuan experience.</p>';
+
+  document.getElementById('detailImg').src = data ? data.image : fallbackImg;
+  document.getElementById('detailEmoji').textContent = emoji || '';
+  document.getElementById('detailTime').textContent = time || '';
+  document.getElementById('detailTitle').textContent = title;
+  document.getElementById('detailLocation').innerHTML = location ? `${LOCATION_ICON} ${location}` : '';
+  document.getElementById('detailSummary').innerHTML = data ? data.summary : fallbackSummary;
+
+  view.classList.add('active');
+  view.scrollTop = 0;
+  document.body.style.overflow = 'hidden';
+}
+
+function showHotelDetail(name, dates, nights, room) {
+  const data = HOTEL_DETAILS[name];
+  const view = document.getElementById('detailView');
+  const fallbackImg = pxImg(5563469);
+  const fallbackSummary = '<p>A luxury accommodation for your Sichuan journey.</p>';
+
+  document.getElementById('detailImg').src = data ? data.image : fallbackImg;
+  document.getElementById('detailEmoji').textContent = '🏨';
+  document.getElementById('detailTime').textContent = `${dates} · ${nights}`;
+  document.getElementById('detailTitle').textContent = name;
+  document.getElementById('detailLocation').innerHTML = room ? room : '';
+  document.getElementById('detailSummary').innerHTML = data ? data.summary : fallbackSummary;
+
+  view.classList.add('active');
+  view.scrollTop = 0;
+  document.body.style.overflow = 'hidden';
+}
+
+function hideDetail() {
+  const view = document.getElementById('detailView');
+  view.classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+function setupDetailView() {
+  document.getElementById('detailBack').addEventListener('click', hideDetail);
+
+  // Also close on swipe-right from left edge
+  let detailTouchStartX = 0;
+  const detailView = document.getElementById('detailView');
+  detailView.addEventListener('touchstart', (e) => {
+    detailTouchStartX = e.changedTouches[0].screenX;
+  }, { passive: true });
+  detailView.addEventListener('touchend', (e) => {
+    const diff = e.changedTouches[0].screenX - detailTouchStartX;
+    if (diff > 80 && detailTouchStartX < 60) {
+      hideDetail();
+    }
+  }, { passive: true });
 }
 
 // ─── REGISTER SERVICE WORKER ────────────────────────────────────────────────

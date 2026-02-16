@@ -1,10 +1,10 @@
-const CACHE_NAME = 'sichuan-trip-v1';
+const CACHE_NAME = 'sichuan-trip-v2';
 const ASSETS = [
-  '/',
-  '/index.html',
-  '/manifest.json',
-  '/icons/icon-192.png',
-  '/icons/icon-512.png'
+  './',
+  './index.html',
+  './manifest.json',
+  './icons/icon-192.png',
+  './icons/icon-512.png'
 ];
 
 // Install — cache all assets
@@ -53,7 +53,7 @@ self.addEventListener('fetch', (event) => {
       });
     }).catch(() => {
       // Offline fallback — return cached index
-      return caches.match('/index.html');
+      return caches.match('./index.html');
     })
   );
 });
