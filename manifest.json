@@ -4,8 +4,8 @@
   "description": "Luxury group trip to Sichuan, China — April 22-29, 2026",
   "start_url": "/index.html",
   "display": "standalone",
-  "background_color": "#0f0f1a",
-  "theme_color": "#1a1a2e",
+  "background_color": "#0a0a0a",
+  "theme_color": "#0a0a0a",
   "orientation": "portrait",
   "icons": [
     {
