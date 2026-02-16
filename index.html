@@ -661,8 +661,11 @@
   /* Detail view overlay */
   .detail-view {
     position: fixed;
-    inset: 0;
-    z-index: 200;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: calc(50px + var(--safe-bottom));
+    z-index: 99;
     background: var(--bg-primary);
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
@@ -740,7 +743,7 @@
 
   .detail-body {
     position: relative;
-    padding: 0 20px 60px;
+    padding: 0 20px 30px;
     margin-top: -36px;
   }
 
