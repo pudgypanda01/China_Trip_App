@@ -1,0 +1,1142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Sichuan Trip">
+<meta name="theme-color" content="#1a1a2e">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<title>Sichuan 2026</title>
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+  :root {
+    --bg-primary: #0f0f1a;
+    --bg-secondary: #1a1a2e;
+    --bg-card: #222240;
+    --bg-card-hover: #2a2a50;
+    --gold: #d4a853;
+    --gold-light: #e8c97a;
+    --gold-dim: #a8863f;
+    --text-primary: #f0ece2;
+    --text-secondary: #b8b5ad;
+    --text-muted: #7a7872;
+    --accent: #c9463d;
+    --accent-soft: rgba(201,70,61,0.15);
+    --border: rgba(212,168,83,0.12);
+    --shadow: 0 4px 24px rgba(0,0,0,0.4);
+    --shadow-lg: 0 8px 40px rgba(0,0,0,0.5);
+    --radius: 16px;
+    --radius-sm: 10px;
+    --safe-top: env(safe-area-inset-top, 0px);
+    --safe-bottom: env(safe-area-inset-bottom, 0px);
+  }
+
+  html {
+    font-size: 16px;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, sans-serif;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    min-height: 100vh;
+    min-height: 100dvh;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Background gradient */
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: 40vh;
+    background: radial-gradient(ellipse at 50% 0%, rgba(212,168,83,0.08) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Header */
+  .header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    padding-top: var(--safe-top);
+    background: rgba(15,15,26,0.85);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    backdrop-filter: blur(20px) saturate(180%);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .header-inner {
+    padding: 16px 20px 0;
+  }
+
+  .trip-title {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 4px;
+  }
+
+  .trip-subtitle {
+    font-size: 11px;
+    color: var(--text-muted);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+
+  /* Day selector */
+  .day-selector {
+    display: flex;
+    gap: 4px;
+    overflow-x: auto;
+    padding: 0 20px 14px;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .day-selector::-webkit-scrollbar { display: none; }
+
+  .day-tab {
+    flex-shrink: 0;
+    scroll-snap-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-width: 54px;
+    padding: 8px 6px;
+    border-radius: var(--radius-sm);
+    background: transparent;
+    border: 1.5px solid transparent;
+    color: var(--text-muted);
+    font-family: inherit;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .day-tab .day-num {
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+
+  .day-tab .day-label {
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    margin-top: 2px;
+  }
+
+  .day-tab.active {
+    background: linear-gradient(135deg, rgba(212,168,83,0.2), rgba(212,168,83,0.08));
+    border-color: var(--gold-dim);
+    color: var(--gold-light);
+  }
+
+  .day-tab:not(.active):active {
+    background: rgba(255,255,255,0.05);
+    transform: scale(0.95);
+  }
+
+  /* Bottom nav */
+  .bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    padding-bottom: var(--safe-bottom);
+    background: rgba(15,15,26,0.9);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    backdrop-filter: blur(20px) saturate(180%);
+    border-top: 1px solid var(--border);
+    display: flex;
+  }
+
+  .nav-btn {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    padding: 10px 0 8px;
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-family: inherit;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    transition: color 0.2s;
+  }
+
+  .nav-btn .nav-icon {
+    font-size: 22px;
+    line-height: 1;
+  }
+
+  .nav-btn.active {
+    color: var(--gold);
+  }
+
+  /* Main content */
+  .main {
+    position: relative;
+    z-index: 1;
+    padding-bottom: calc(70px + var(--safe-bottom));
+  }
+
+  /* Day content */
+  .day-content {
+    padding: 20px 16px;
+    display: none;
+    animation: fadeIn 0.35s ease;
+  }
+
+  .day-content.active {
+    display: block;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .day-header {
+    margin-bottom: 20px;
+  }
+
+  .day-header h1 {
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    color: var(--text-primary);
+    line-height: 1.15;
+  }
+
+  .day-header .day-date {
+    font-size: 14px;
+    color: var(--gold-dim);
+    font-weight: 500;
+    margin-top: 4px;
+  }
+
+  .day-header .day-summary {
+    font-size: 14px;
+    color: var(--text-secondary);
+    margin-top: 8px;
+    line-height: 1.5;
+  }
+
+  /* Activity cards */
+  .activity-card {
+    display: block;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px;
+    margin-bottom: 12px;
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+    -webkit-tap-highlight-color: transparent;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .activity-card:active {
+    transform: scale(0.98);
+    background: var(--bg-card-hover);
+  }
+
+  .activity-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 80px;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(212,168,83,0.03));
+    pointer-events: none;
+  }
+
+  .card-top {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .card-emoji {
+    font-size: 28px;
+    line-height: 1;
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255,255,255,0.04);
+    border-radius: 10px;
+  }
+
+  .card-body {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .card-time {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--gold);
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    margin-bottom: 3px;
+  }
+
+  .card-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-primary);
+    line-height: 1.3;
+    margin-bottom: 4px;
+  }
+
+  .card-desc {
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.45;
+  }
+
+  .card-location {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-top: 8px;
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+
+  .card-location svg {
+    width: 14px;
+    height: 14px;
+    opacity: 0.6;
+    flex-shrink: 0;
+  }
+
+  .card-search-hint {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.25;
+  }
+
+  .card-search-hint svg {
+    width: 16px;
+    height: 16px;
+    color: var(--text-muted);
+  }
+
+  /* Accommodations page */
+  .accommodations {
+    padding: 20px 16px;
+    display: none;
+    animation: fadeIn 0.35s ease;
+  }
+
+  .accommodations.active {
+    display: block;
+  }
+
+  .accommodations h1 {
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    margin-bottom: 6px;
+  }
+
+  .accommodations .section-sub {
+    font-size: 14px;
+    color: var(--text-muted);
+    margin-bottom: 24px;
+  }
+
+  .hotel-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 18px;
+    margin-bottom: 14px;
+    position: relative;
+    overflow: hidden;
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    -webkit-tap-highlight-color: transparent;
+    transition: transform 0.2s ease, background 0.2s ease;
+  }
+
+  .hotel-card:active {
+    transform: scale(0.98);
+    background: var(--bg-card-hover);
+  }
+
+  .hotel-card::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: var(--gold);
+    border-radius: 0 2px 2px 0;
+  }
+
+  .hotel-dates {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--gold);
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+
+  .hotel-name {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 4px;
+    line-height: 1.3;
+  }
+
+  .hotel-room {
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin-bottom: 4px;
+  }
+
+  .hotel-nights {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+  }
+
+  .hotel-perks {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .perk-tag {
+    font-size: 11px;
+    padding: 4px 10px;
+    border-radius: 20px;
+    background: rgba(212,168,83,0.1);
+    color: var(--gold-dim);
+    font-weight: 500;
+  }
+
+  /* Overview page */
+  .overview-page {
+    padding: 20px 16px;
+    display: none;
+    animation: fadeIn 0.35s ease;
+  }
+
+  .overview-page.active {
+    display: block;
+  }
+
+  .overview-page h1 {
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    margin-bottom: 6px;
+  }
+
+  .overview-page .section-sub {
+    font-size: 14px;
+    color: var(--text-muted);
+    margin-bottom: 24px;
+  }
+
+  .overview-hero {
+    background: linear-gradient(135deg, var(--bg-card), rgba(212,168,83,0.08));
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px 20px;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+
+  .overview-hero .hero-emoji {
+    font-size: 48px;
+    margin-bottom: 12px;
+  }
+
+  .overview-hero h2 {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+
+  .overview-hero p {
+    font-size: 14px;
+    color: var(--text-secondary);
+  }
+
+  .stat-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+
+  .stat-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 16px;
+    text-align: center;
+  }
+
+  .stat-card .stat-emoji {
+    font-size: 24px;
+    margin-bottom: 6px;
+  }
+
+  .stat-card .stat-value {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--gold-light);
+  }
+
+  .stat-card .stat-label {
+    font-size: 11px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-top: 2px;
+  }
+
+  .countdown-banner {
+    background: linear-gradient(135deg, rgba(201,70,61,0.15), rgba(212,168,83,0.1));
+    border: 1px solid rgba(201,70,61,0.2);
+    border-radius: var(--radius-sm);
+    padding: 16px 20px;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  .countdown-banner .countdown-label {
+    font-size: 12px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+  }
+
+  .countdown-banner .countdown-value {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--accent);
+  }
+
+  .countdown-banner .countdown-unit {
+    font-size: 14px;
+    color: var(--text-secondary);
+  }
+
+  /* During trip state */
+  .countdown-banner.during {
+    background: linear-gradient(135deg, rgba(76,175,80,0.15), rgba(212,168,83,0.1));
+    border-color: rgba(76,175,80,0.2);
+  }
+
+  .countdown-banner.during .countdown-value {
+    color: #66bb6a;
+  }
+
+  .countdown-banner.past {
+    background: linear-gradient(135deg, rgba(120,120,120,0.15), rgba(212,168,83,0.05));
+    border-color: rgba(120,120,120,0.2);
+  }
+
+  .countdown-banner.past .countdown-value {
+    color: var(--text-muted);
+  }
+
+  /* Swipe container */
+  .swipe-container {
+    touch-action: pan-y;
+    overflow: hidden;
+  }
+
+  /* Loading state */
+  .loading-screen {
+    position: fixed;
+    inset: 0;
+    background: var(--bg-primary);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    transition: opacity 0.4s ease;
+  }
+
+  .loading-screen.hidden {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .loading-text {
+    font-size: 13px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-top: 16px;
+  }
+
+  .loading-logo {
+    font-size: 56px;
+    animation: pulse 1.5s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.08); opacity: 0.7; }
+  }
+
+  /* Page transitions */
+  .page-view {
+    min-height: calc(100vh - 140px);
+    min-height: calc(100dvh - 140px);
+  }
+
+  /* Scroll to top */
+  .main::-webkit-scrollbar { display: none; }
+</style>
+</head>
+<body>
+
+<div class="loading-screen" id="loading">
+  <div class="loading-logo">🏔️</div>
+  <div class="loading-text">Sichuan 2026</div>
+</div>
+
+<header class="header">
+  <div class="header-inner">
+    <div class="trip-title">Sichuan, China</div>
+    <div class="trip-subtitle">April 22 – 29, 2026</div>
+  </div>
+  <div class="day-selector" id="daySelector"></div>
+</header>
+
+<main class="main" id="mainContent">
+  <div class="page-view" id="itineraryView">
+    <div class="swipe-container" id="swipeContainer"></div>
+  </div>
+  <div class="page-view accommodations" id="accommodationsView"></div>
+  <div class="page-view overview-page" id="overviewView"></div>
+</main>
+
+<nav class="bottom-nav">
+  <button class="nav-btn active" data-view="itinerary" id="navItinerary">
+    <span class="nav-icon">📅</span>
+    Itinerary
+  </button>
+  <button class="nav-btn" data-view="accommodations" id="navAccommodations">
+    <span class="nav-icon">🏨</span>
+    Hotels
+  </button>
+  <button class="nav-btn" data-view="overview" id="navOverview">
+    <span class="nav-icon">✨</span>
+    Overview
+  </button>
+</nav>
+
+<script>
+// ─── DATA ───────────────────────────────────────────────────────────────────
+
+const TRIP_START = new Date(2026, 3, 22); // April 22, 2026
+const TRIP_END = new Date(2026, 3, 29);   // April 29, 2026
+
+const DAYS = [
+  {
+    day: 1,
+    date: 'Wednesday, April 22',
+    dateShort: 'Apr 22',
+    dayName: 'Wed',
+    summary: 'Fly to Chengdu, explore ancient Dujiangyan, and check in at the stunning Six Senses resort.',
+    activities: [
+      { time: '10:00 AM', title: 'Flight CX 986 — Hong Kong to Chengdu', desc: 'Departs HKG, arrives Chengdu Tianfu at 12:40 PM', emoji: '✈️', search: 'CX986 Cathay Pacific Hong Kong Chengdu flight' },
+      { time: 'Afternoon', title: 'Private Transfer to Six Senses', desc: 'Scenic drive from the airport to Qingcheng Mountain area', emoji: '🚗', search: 'Six Senses Qingcheng Mountain Chengdu' },
+      { time: 'Afternoon', title: 'Check in — Six Senses Qingcheng Mountain', desc: '1 night stay at this luxury mountain retreat', emoji: '🏨', search: 'Six Senses Qingcheng Mountain resort' },
+      { time: 'Afternoon', title: 'Dujiangyan Dam', desc: 'Ancient UNESCO irrigation system built in 256 BC — one of the greatest engineering feats of the ancient world', emoji: '🏛️', search: 'Dujiangyan Dam irrigation system UNESCO', location: 'Dujiangyan, Chengdu' },
+      { time: 'Evening', title: 'Nanqiao Bridge "Blue Tears" Light Show', desc: 'Stunning illuminated night show at the historic Nanqiao Bridge in Dujiangyan', emoji: '🌉', search: 'Nanqiao Bridge Blue Tears light show Dujiangyan', location: 'Dujiangyan' },
+    ]
+  },
+  {
+    day: 2,
+    date: 'Thursday, April 23',
+    dateShort: 'Apr 23',
+    dayName: 'Thu',
+    summary: 'Get up close with giant pandas, hike sacred Qingcheng Mountain, then settle into The Temple House in Chengdu.',
+    activities: [
+      { time: '8:30 AM', title: 'Panda Volunteer Programme', desc: 'Guided tour and hands-on feeding experience at Dujiangyan Panda Base (2-3 hours)', emoji: '🐼', search: 'Dujiangyan Panda Base volunteer programme', location: 'Dujiangyan Panda Base' },
+      { time: 'Late Morning', title: 'Check out Six Senses Qingcheng Mountain', desc: '', emoji: '🏨', search: 'Six Senses Qingcheng Mountain' },
+      { time: 'Midday', title: 'Qingcheng Mountain (青城山)', desc: 'UNESCO World Heritage site and birthplace of Taoism — cable car ride and hiking trails (3 hours)', emoji: '🏔️', search: 'Qingcheng Mountain UNESCO Taoism birthplace', location: 'Qingcheng Mountain' },
+      { time: 'Afternoon', title: 'Transfer to Chengdu', desc: '1.5 hour drive to the city center', emoji: '🚗', search: 'Chengdu city center' },
+      { time: 'Afternoon', title: 'Check in — The Temple House', desc: 'Studio 60, 2 nights — daily breakfast and RMB 700 hotel credit included', emoji: '🏨', search: 'The Temple House Chengdu hotel', location: 'Chengdu' },
+      { time: 'Evening (Optional)', title: 'Sichuan "Face Changing" Opera', desc: 'Spectacular Bian Lian performance — can also be done on Day 3 evening', emoji: '🎭', search: 'Sichuan Face Changing Opera Bian Lian Chengdu', location: 'Chengdu' },
+    ]
+  },
+  {
+    day: 3,
+    date: 'Friday, April 24',
+    dateShort: 'Apr 24',
+    dayName: 'Fri',
+    summary: 'A day of Sichuan flavors — cooking class, Kung Fu tea, and an evening foodie tour through Chengdu.',
+    activities: [
+      { time: '10:00 AM', title: 'Sichuan Spice Market & Cooking Class', desc: 'Visit a local spice market and learn to cook authentic Sichuan dishes', emoji: '🍜', search: 'Sichuan cooking class spice market Chengdu', location: 'Chengdu' },
+      { time: 'Afternoon', title: 'Kung Fu Tea Performance', desc: 'Traditional long-spout tea pouring art at Wangjianglou Park', emoji: '🍵', search: 'Kung Fu Tea Performance Wangjianglou Park Chengdu', location: 'Wangjianglou Park' },
+      { time: 'Afternoon', title: 'Leisure Time in Chengdu', desc: 'Explore Taikoo Li — Chengdu\'s premier open-air shopping and dining district', emoji: '🛍️', search: 'Taikoo Li Chengdu shopping', location: 'Taikoo Li, Chengdu' },
+      { time: 'Evening', title: 'Chengdu Foodie Tour (4 hours)', desc: 'Wet market, street food, hotpot, and authentic Sichuan family dinner experience', emoji: '🍲', search: 'Chengdu food tour street food hotpot', location: 'Chengdu' },
+    ]
+  },
+  {
+    day: 4,
+    date: 'Saturday, April 25',
+    dateShort: 'Apr 25',
+    dayName: 'Sat',
+    summary: 'High-speed train through the mountains, explore ancient Songpan, then arrive at the luxurious Rissai Valley.',
+    activities: [
+      { time: 'Morning', title: 'Check out The Temple House', desc: '', emoji: '🏨', search: 'The Temple House Chengdu' },
+      { time: '9:39 AM', title: 'High-Speed Train — Chengdu East to Songpan', desc: 'First Class seats, arrives 11:12 AM — scenic journey through Sichuan countryside', emoji: '🚄', search: 'Chengdu East to Songpan high speed train' },
+      { time: 'Midday', title: 'Songpan Old Town (松潘古城)', desc: 'Explore this Ming Dynasty walled trading post — a historic gateway on the ancient Tea Horse Road', emoji: '🏯', search: 'Songpan Old Town Ming Dynasty ancient town', location: 'Songpan' },
+      { time: 'Afternoon', title: 'Fairy Pool / Shenxianchi Park (神仙池)', desc: '"Jiuzhaigou without the crowds" — turquoise terraced pools and waterfalls in pristine forest', emoji: '💎', search: 'Shenxianchi Fairy Pool scenic area Sichuan', location: 'Shenxianchi' },
+      { time: 'Afternoon', title: 'Private Transfer to Rissai Valley', desc: '~2 hour scenic drive through the mountains', emoji: '🚗', search: 'Rissai Valley Ritz Carlton Reserve' },
+      { time: 'Evening', title: 'Check in — Rissai Valley, Ritz-Carlton Reserve', desc: 'Reserve 1-BR Villa, 3 nights — butler service, daily cocktails, honour bar', emoji: '🏨', search: 'Rissai Valley Ritz Carlton Reserve Jiuzhaigou', location: 'Rissai Valley' },
+      { time: 'Evening', title: 'Welcome Dinner — Chef Table at Cai Lin Xuan', desc: 'Included welcome dinner at the resort\'s signature restaurant', emoji: '🍽️', search: 'Rissai Valley Cai Lin Xuan restaurant', location: 'Rissai Valley' },
+    ]
+  },
+  {
+    day: 5,
+    date: 'Sunday, April 26',
+    dateShort: 'Apr 26',
+    dayName: 'Sun',
+    summary: 'A serene day of meditation, temple visits, and Tibetan culture at the beautiful Rissai Valley.',
+    activities: [
+      { time: 'Morning', title: 'Leisure Day at Rissai Valley', desc: 'Enjoy the resort\'s world-class spa, pools, and mountain views at your own pace', emoji: '🧘', search: 'Rissai Valley Ritz Carlton Reserve spa', location: 'Rissai Valley' },
+      { time: 'Morning', title: 'Private Meditation Class', desc: 'Guided meditation session in the serene mountain setting', emoji: '🧘', search: 'Rissai Valley meditation wellness', location: 'Rissai Valley' },
+      { time: 'Midday', title: 'Private Temple Visit', desc: 'Explore a local Tibetan Buddhist temple with a private guide', emoji: '🛕', search: 'Tibetan temple near Jiuzhaigou', location: 'Near Rissai Valley' },
+      { time: 'Afternoon', title: 'Tibetan Village Cultural Visit', desc: 'Experience authentic Tibetan culture, architecture, and traditions', emoji: '🎭', search: 'Tibetan village cultural visit Jiuzhaigou area', location: 'Near Jiuzhaigou' },
+      { time: 'Afternoon', title: 'Afternoon Tea at Rissai Valley', desc: 'Complimentary afternoon tea service with mountain views (included)', emoji: '🍵', search: 'Rissai Valley afternoon tea', location: 'Rissai Valley' },
+    ]
+  },
+  {
+    day: 6,
+    date: 'Monday, April 27',
+    dateShort: 'Apr 27',
+    dayName: 'Mon',
+    summary: 'The highlight — a full day private VIP tour of the legendary Jiuzhaigou National Park.',
+    activities: [
+      { time: '8:30 AM – 5:00 PM', title: 'Jiuzhaigou National Park — Private VIP Visit', desc: 'Full day chartered transport with guaranteed access — beat the crowds at one of China\'s most spectacular natural wonders', emoji: '🏞️', search: 'Jiuzhaigou National Park Valley UNESCO', location: 'Jiuzhaigou' },
+      { time: 'Midday', title: 'Lunch in Jiuzhaigou Area', desc: 'Lunch in or around the park (not included)', emoji: '🍜', search: 'Jiuzhaigou National Park restaurants' },
+      { time: 'Evening', title: 'Hot Pot Dinner at Bo Ri Village', desc: 'Authentic local hot pot dinner (included)', emoji: '🍲', search: 'Bo Ri Village hot pot Jiuzhaigou', location: 'Bo Ri Village' },
+    ]
+  },
+  {
+    day: 7,
+    date: 'Tuesday, April 28',
+    dateShort: 'Apr 28',
+    dayName: 'Tue',
+    summary: 'Early morning departure, bullet train ride, and the awe-inspiring Bronze Age treasures of Sanxingdui.',
+    activities: [
+      { time: '6:45 AM', title: 'Early Departure from Rissai Valley', desc: 'Packed breakfast provided for the journey', emoji: '🌅', search: 'Rissai Valley Ritz Carlton Reserve' },
+      { time: 'Morning', title: 'Transfer to Huanglong-Jiuzhai Station', desc: '2 hour drive through the mountains to the rail station', emoji: '🚗', search: 'Huanglong Jiuzhai train station' },
+      { time: 'Midday', title: 'Bullet Train C5784 to Sanxingdui', desc: 'First Class, 1 hour 40 minutes through scenic Sichuan', emoji: '🚄', search: 'Huanglong Jiuzhai to Sanxingdui bullet train' },
+      { time: 'Afternoon', title: 'Sanxingdui Museum (三星堆)', desc: 'Guided visit to the extraordinary Bronze Age archaeological site — 13,000+ artifacts from a mysterious 3,000-year-old civilization', emoji: '🏛️', search: 'Sanxingdui Museum Bronze Age archaeological site', location: 'Guanghan, Sichuan' },
+      { time: 'Afternoon', title: 'Transfer to Chengdu', desc: 'Drive back to the city', emoji: '🚗', search: 'Chengdu city center' },
+      { time: 'Evening', title: 'Check in — The Temple House', desc: 'Studio 60, 1 night — final evening in Chengdu', emoji: '🏨', search: 'The Temple House Chengdu', location: 'Chengdu' },
+    ]
+  },
+  {
+    day: 8,
+    date: 'Wednesday, April 29',
+    dateShort: 'Apr 29',
+    dayName: 'Wed',
+    summary: 'Check out and fly home — farewell to Sichuan!',
+    activities: [
+      { time: 'Morning', title: 'Check out The Temple House', desc: 'Final departure from Chengdu', emoji: '🏨', search: 'The Temple House Chengdu' },
+      { time: 'Late Morning', title: 'Private Transfer to Airport', desc: '1.5 hour drive to Chengdu Tianfu International Airport', emoji: '🚗', search: 'Chengdu Tianfu International Airport' },
+      { time: '1:55 PM', title: 'Flight CX 987 — Chengdu to Hong Kong', desc: 'Arrives Hong Kong at 4:50 PM — welcome home!', emoji: '✈️', search: 'CX987 Cathay Pacific Chengdu Hong Kong flight' },
+    ]
+  }
+];
+
+const HOTELS = [
+  {
+    dates: 'Apr 22 – 23',
+    name: 'Six Senses Qingcheng Mountain',
+    room: null,
+    nights: '1 night',
+    perks: ['Mountain Retreat', 'Luxury Spa'],
+    search: 'Six Senses Qingcheng Mountain resort Chengdu'
+  },
+  {
+    dates: 'Apr 23 – 25',
+    name: 'The Temple House, Chengdu',
+    room: 'Studio 60',
+    nights: '2 nights',
+    perks: ['Daily Breakfast', 'RMB 700 Credit'],
+    search: 'The Temple House Chengdu Swire Hotels'
+  },
+  {
+    dates: 'Apr 25 – 28',
+    name: 'Rissai Valley, Ritz-Carlton Reserve',
+    room: 'Reserve 1-Bedroom Villa',
+    nights: '3 nights',
+    perks: ['Butler Service', 'Daily Cocktails', 'Honour Bar'],
+    search: 'Rissai Valley Ritz Carlton Reserve Jiuzhaigou'
+  },
+  {
+    dates: 'Apr 28 – 29',
+    name: 'The Temple House, Chengdu',
+    room: 'Studio 60',
+    nights: '1 night',
+    perks: ['Daily Breakfast', 'RMB 700 Credit'],
+    search: 'The Temple House Chengdu Swire Hotels'
+  }
+];
+
+// ─── SVG ICONS ──────────────────────────────────────────────────────────────
+
+const SEARCH_ICON = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"/></svg>`;
+
+const LOCATION_ICON = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"/></svg>`;
+
+// ─── APP STATE ──────────────────────────────────────────────────────────────
+
+let currentDay = 0; // 0-indexed
+let currentView = 'itinerary'; // 'itinerary' | 'accommodations' | 'overview'
+let touchStartX = 0;
+let touchEndX = 0;
+let isSwiping = false;
+
+// ─── INITIALIZATION ─────────────────────────────────────────────────────────
+
+function init() {
+  // Determine which day to show
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const tripStart = new Date(2026, 3, 22);
+  tripStart.setHours(0, 0, 0, 0);
+  const tripEnd = new Date(2026, 3, 29);
+  tripEnd.setHours(23, 59, 59, 999);
+
+  if (today >= tripStart && today <= tripEnd) {
+    const diffDays = Math.floor((today - tripStart) / (1000 * 60 * 60 * 24));
+    currentDay = Math.min(diffDays, 7);
+  } else {
+    currentDay = 0;
+  }
+
+  renderDaySelector();
+  renderAllDays();
+  renderAccommodations();
+  renderOverview();
+  setActiveDay(currentDay);
+  setupSwipe();
+  setupNavigation();
+
+  // Hide loading screen
+  setTimeout(() => {
+    document.getElementById('loading').classList.add('hidden');
+  }, 600);
+}
+
+// ─── RENDER FUNCTIONS ───────────────────────────────────────────────────────
+
+function renderDaySelector() {
+  const selector = document.getElementById('daySelector');
+  selector.innerHTML = DAYS.map((d, i) => `
+    <button class="day-tab${i === currentDay ? ' active' : ''}" data-day="${i}" aria-label="Day ${d.day}">
+      <span class="day-num">${d.day}</span>
+      <span class="day-label">${d.dayName}</span>
+    </button>
+  `).join('');
+
+  selector.addEventListener('click', (e) => {
+    const tab = e.target.closest('.day-tab');
+    if (tab) {
+      const dayIdx = parseInt(tab.dataset.day);
+      setActiveDay(dayIdx);
+    }
+  });
+}
+
+function renderAllDays() {
+  const container = document.getElementById('swipeContainer');
+  container.innerHTML = DAYS.map((d, i) => `
+    <div class="day-content${i === currentDay ? ' active' : ''}" data-day-content="${i}">
+      <div class="day-header">
+        <h1>Day ${d.day}</h1>
+        <div class="day-date">${d.date}</div>
+        <div class="day-summary">${d.summary}</div>
+      </div>
+      ${d.activities.map(a => renderActivityCard(a)).join('')}
+    </div>
+  `).join('');
+}
+
+function renderActivityCard(activity) {
+  const searchUrl = `https://www.google.com/search?q=${encodeURIComponent(activity.search)}`;
+  return `
+    <a class="activity-card" href="${searchUrl}" target="_blank" rel="noopener noreferrer">
+      <div class="card-search-hint">${SEARCH_ICON}</div>
+      <div class="card-top">
+        <div class="card-emoji">${activity.emoji}</div>
+        <div class="card-body">
+          ${activity.time ? `<div class="card-time">${activity.time}</div>` : ''}
+          <div class="card-title">${activity.title}</div>
+          ${activity.desc ? `<div class="card-desc">${activity.desc}</div>` : ''}
+          ${activity.location ? `<div class="card-location">${LOCATION_ICON} ${activity.location}</div>` : ''}
+        </div>
+      </div>
+    </a>
+  `;
+}
+
+function renderAccommodations() {
+  const view = document.getElementById('accommodationsView');
+  view.innerHTML = `
+    <h1>Accommodations</h1>
+    <div class="section-sub">4 hotels across 7 nights</div>
+    ${HOTELS.map(h => `
+      <a class="hotel-card" href="https://www.google.com/search?q=${encodeURIComponent(h.search)}" target="_blank" rel="noopener noreferrer">
+        <div class="hotel-dates">${h.dates}</div>
+        <div class="hotel-name">${h.name}</div>
+        ${h.room ? `<div class="hotel-room">${h.room}</div>` : ''}
+        <div class="hotel-nights">${h.nights}</div>
+        <div class="hotel-perks">
+          ${h.perks.map(p => `<span class="perk-tag">${p}</span>`).join('')}
+        </div>
+      </a>
+    `).join('')}
+  `;
+}
+
+function renderOverview() {
+  const view = document.getElementById('overviewView');
+
+  // Calculate countdown
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const tripStart = new Date(2026, 3, 22);
+  tripStart.setHours(0, 0, 0, 0);
+  const tripEnd = new Date(2026, 3, 29);
+  tripEnd.setHours(23, 59, 59, 999);
+
+  let countdownHTML = '';
+  if (today < tripStart) {
+    const daysUntil = Math.ceil((tripStart - today) / (1000 * 60 * 60 * 24));
+    countdownHTML = `
+      <div class="countdown-banner">
+        <div class="countdown-label">Trip starts in</div>
+        <div class="countdown-value">${daysUntil}</div>
+        <div class="countdown-unit">day${daysUntil !== 1 ? 's' : ''}</div>
+      </div>
+    `;
+  } else if (today >= tripStart && today <= tripEnd) {
+    const dayNum = Math.floor((today - tripStart) / (1000 * 60 * 60 * 24)) + 1;
+    countdownHTML = `
+      <div class="countdown-banner during">
+        <div class="countdown-label">Currently on</div>
+        <div class="countdown-value">Day ${dayNum}</div>
+        <div class="countdown-unit">of your Sichuan adventure</div>
+      </div>
+    `;
+  } else {
+    countdownHTML = `
+      <div class="countdown-banner past">
+        <div class="countdown-label">Trip completed</div>
+        <div class="countdown-value">What a journey!</div>
+        <div class="countdown-unit">8 days across Sichuan</div>
+      </div>
+    `;
+  }
+
+  view.innerHTML = `
+    <h1>Trip Overview</h1>
+    <div class="section-sub">Sichuan, China — April 2026</div>
+    <div class="overview-hero">
+      <div class="hero-emoji">🏔️</div>
+      <h2>Sichuan Adventure</h2>
+      <p>8 days through Chengdu, Jiuzhaigou & beyond</p>
+    </div>
+    ${countdownHTML}
+    <div class="stat-grid">
+      <div class="stat-card">
+        <div class="stat-emoji">📅</div>
+        <div class="stat-value">8</div>
+        <div class="stat-label">Days</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-emoji">🏨</div>
+        <div class="stat-value">7</div>
+        <div class="stat-label">Nights</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-emoji">✈️</div>
+        <div class="stat-value">2</div>
+        <div class="stat-label">Flights</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-emoji">🚄</div>
+        <div class="stat-value">2</div>
+        <div class="stat-label">Train Rides</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-emoji">🐼</div>
+        <div class="stat-value">1</div>
+        <div class="stat-label">Panda Visit</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-emoji">🏞️</div>
+        <div class="stat-value">3</div>
+        <div class="stat-label">UNESCO Sites</div>
+      </div>
+    </div>
+  `;
+}
+
+// ─── DAY NAVIGATION ─────────────────────────────────────────────────────────
+
+function setActiveDay(idx) {
+  currentDay = idx;
+
+  // Update tabs
+  document.querySelectorAll('.day-tab').forEach((tab, i) => {
+    tab.classList.toggle('active', i === idx);
+  });
+
+  // Update content
+  document.querySelectorAll('.day-content').forEach((content, i) => {
+    content.classList.toggle('active', i === idx);
+  });
+
+  // Scroll active tab into view
+  const activeTab = document.querySelector(`.day-tab[data-day="${idx}"]`);
+  if (activeTab) {
+    activeTab.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+  }
+
+  // Scroll main content to top
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ─── SWIPE HANDLING ─────────────────────────────────────────────────────────
+
+function setupSwipe() {
+  const container = document.getElementById('swipeContainer');
+
+  container.addEventListener('touchstart', (e) => {
+    touchStartX = e.changedTouches[0].screenX;
+    isSwiping = true;
+  }, { passive: true });
+
+  container.addEventListener('touchend', (e) => {
+    if (!isSwiping) return;
+    touchEndX = e.changedTouches[0].screenX;
+    handleSwipe();
+    isSwiping = false;
+  }, { passive: true });
+}
+
+function handleSwipe() {
+  const diff = touchStartX - touchEndX;
+  const threshold = 60;
+
+  if (Math.abs(diff) < threshold) return;
+
+  if (diff > 0 && currentDay < DAYS.length - 1) {
+    // Swipe left → next day
+    setActiveDay(currentDay + 1);
+  } else if (diff < 0 && currentDay > 0) {
+    // Swipe right → prev day
+    setActiveDay(currentDay - 1);
+  }
+}
+
+// ─── BOTTOM NAVIGATION ─────────────────────────────────────────────────────
+
+function setupNavigation() {
+  const navBtns = document.querySelectorAll('.nav-btn');
+  navBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const view = btn.dataset.view;
+      switchView(view);
+    });
+  });
+}
+
+function switchView(view) {
+  currentView = view;
+
+  // Update nav buttons
+  document.querySelectorAll('.nav-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.view === view);
+  });
+
+  // Update visible pages
+  document.getElementById('itineraryView').style.display = view === 'itinerary' ? 'block' : 'none';
+  document.getElementById('accommodationsView').classList.toggle('active', view === 'accommodations');
+  document.getElementById('overviewView').classList.toggle('active', view === 'overview');
+
+  // Show/hide day selector
+  document.getElementById('daySelector').style.display = view === 'itinerary' ? 'flex' : 'none';
+
+  // Scroll to top
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ─── REGISTER SERVICE WORKER ────────────────────────────────────────────────
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js').catch(() => {
+      // Service worker registration failed — app still works
+    });
+  });
+}
+
+// ─── START ──────────────────────────────────────────────────────────────────
+
+document.addEventListener('DOMContentLoaded', init);
+</script>
+
+</body>
+</html>
